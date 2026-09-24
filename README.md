@@ -4,35 +4,6 @@
 
 用 Cursor、Codex 或 Workbuddy 打开本仓库，把文件路径发给智能体，说「写会议纪要」。具体说法见下面的使用方法。
 
-## 这条链路用什么
-
-| 步骤 | 能力 | 来源 |
-| --- | --- | --- |
-| 视频抽音频 | ffmpeg | 本机安装，`brew install ffmpeg` |
-| 语音转文字 | SenseVoice-Small，ONNX | 首次运行从 Hugging Face 下载 |
-| 推理 | ONNX Runtime（Rust `ort`） | 编进 `meeting-minutes` |
-| 会议纪要正文 | 当前智能体里的模型 | Cursor、Codex、Workbuddy 或其他能跑本地命令的智能体。不由这个 CLI 调用云端模型 |
-
-转写模型文件：
-
-- `model.onnx`
-- `tokens.json`
-- `am.mvn`
-
-下载前缀：
-
-```text
-https://huggingface.co/DennisHuang648/SenseVoiceSmall-onnx/resolve/main
-```
-
-默认放到：
-
-```text
-~/Library/Application Support/io.meeting-minutes.MeetingMinutesCli/models/sensevoice-small
-```
-
-音频只在本机转写，不会上传。模型文件第一次使用时再下载，不放在这个仓库里。
-
 ## 使用方法
 
 用 Cursor、Codex 或 Workbuddy 打开本仓库，把文件的绝对路径发给智能体，并说要写会议纪要。
@@ -65,6 +36,35 @@ https://huggingface.co/DennisHuang648/SenseVoiceSmall-onnx/resolve/main
 没说输出目录时，原文 `asr.txt` 和 `会议纪要.md` 写到 `~/Downloads/会议纪要/<文件名>/`。
 
 智能体会自己抽音频、下载转写模型、转写，再按会议背景、目标、参会人角色、会议内容、核心关注、结论、待办来写。不需要先手动跑命令。
+
+## 这条链路用什么
+
+| 步骤 | 能力 | 来源 |
+| --- | --- | --- |
+| 视频抽音频 | ffmpeg | 本机安装，`brew install ffmpeg` |
+| 语音转文字 | SenseVoice-Small，ONNX | 首次运行从 Hugging Face 下载 |
+| 推理 | ONNX Runtime（Rust `ort`） | 编进 `meeting-minutes` |
+| 会议纪要正文 | 当前智能体里的模型 | Cursor、Codex、Workbuddy 或其他能跑本地命令的智能体。不由这个 CLI 调用云端模型 |
+
+转写模型文件：
+
+- `model.onnx`
+- `tokens.json`
+- `am.mvn`
+
+下载前缀：
+
+```text
+https://huggingface.co/DennisHuang648/SenseVoiceSmall-onnx/resolve/main
+```
+
+默认放到：
+
+```text
+~/Library/Application Support/io.meeting-minutes.MeetingMinutesCli/models/sensevoice-small
+```
+
+音频只在本机转写，不会上传。模型文件第一次使用时再下载，不放在这个仓库里。
 
 ## 支持的智能体
 
