@@ -2,72 +2,6 @@
 
 本地把会议视频或音频转成文字，再写成会议纪要。音频不上传。模型权重不在这个仓库里。
 
-## 使用方法
-
-### 用智能体
-
-1. 克隆本仓库，用 Cursor、Codex 或 Workbuddy 打开。
-2. 准备一份材料，可以是视频、音频，或已经转好的 txt、md。
-3. 对智能体说「写会议纪要」，并给出文件的绝对路径。要换输出位置时，同时说存放文件夹。
-
-示例：
-
-```text
-写会议纪要 /Users/me/Downloads/需求评审.mp4
-```
-
-```text
-写会议纪要 /Users/me/Downloads/需求评审.mp4，结果放到 /Users/me/Documents/会议
-```
-
-智能体第一次运行会检查本机 `ffmpeg` 和 SenseVoice 模型。没有 ffmpeg 时安装；没有模型时执行 `meeting-minutes setup --skip-ffmpeg-install`，从 Hugging Face 下载到本机模型目录，不会把权重写进仓库。
-
-支持的材料：
-
-| 类型 | 扩展名 |
-| --- | --- |
-| 视频 | mp4、mov、m4v、mkv、avi、flv、wmv、webm |
-| 音频 | wav、mp3、m4a、aac、flac、ogg |
-| 文本 | txt、md |
-
-没指定文件夹时，结果在：
-
-```text
-~/Downloads/会议纪要/<原文件名>/
-```
-
-这个目录里有：
-
-- `asr.txt`：转写原文。txt、md 输入没有这一步。
-- `audio.wav`：从视频抽出的音频。纯音频或文本输入不一定有。
-- `会议纪要.md`：背景、目标、参会人角色、会议内容、核心关注、结论、待办。
-
-材料里没说的会写成「材料未提及」。靠上下文补上的会标「（推测）」。
-
-### 只用命令行转写
-
-纪要正文仍建议交给智能体写。命令行只负责抽出音频并转成文字。
-
-```bash
-git clone https://github.com/jqlong17/meeting-minutes.git
-cd meeting-minutes
-brew install ffmpeg
-cargo build --release
-./target/release/meeting-minutes setup --skip-ffmpeg-install
-
-./target/release/meeting-minutes run \
-  --video "/绝对路径/需求评审.mp4" \
-  --output-dir "$HOME/Downloads/会议纪要/需求评审"
-```
-
-已有音频时：
-
-```bash
-./target/release/meeting-minutes transcribe-audio \
-  --audio "/绝对路径/需求评审.wav" \
-  --output "$HOME/Downloads/会议纪要/需求评审/asr.txt"
-```
-
 ## 这条链路用什么
 
 | 步骤 | 能力 | 来源 |
@@ -94,6 +28,39 @@ https://huggingface.co/DennisHuang648/SenseVoiceSmall-onnx/resolve/main
 ```text
 ~/Library/Application Support/io.meeting-minutes.MeetingMinutesCli/models/sensevoice-small
 ```
+
+## 使用方法
+
+用 Cursor、Codex 或 Workbuddy 打开本仓库，把文件的绝对路径发给智能体，并说要写会议纪要。
+
+视频：
+
+```text
+写会议纪要 /Users/me/Downloads/周三评审.mp4
+```
+
+音频：
+
+```text
+把这个录音整理成会议纪要 /Users/me/Downloads/周三评审.m4a
+```
+
+已有转写或笔记（txt、md）：
+
+```text
+根据这份文字写会议纪要 /Users/me/Downloads/周三评审.txt
+```
+
+结果要放到指定文件夹时，把目录一起说出来：
+
+```text
+写会议纪要 /Users/me/Downloads/周三评审.mp4
+输出到 /Users/me/Documents/会议记录
+```
+
+没说输出目录时，原文 `asr.txt` 和 `会议纪要.md` 写到 `~/Downloads/会议纪要/<文件名>/`。
+
+智能体会自己抽音频、下载转写模型、转写，再按会议背景、目标、参会人角色、会议内容、核心关注、结论、待办来写。不需要先手动跑命令。
 
 ## 支持的智能体
 
