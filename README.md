@@ -4,6 +4,8 @@
 
 用 Cursor、Codex 或 Workbuddy 打开本仓库，把文件路径发给智能体，说「写会议纪要」。具体说法见下面的使用方法。
 
+![视频、音频、文本经智能体写成会议纪要](docs/meeting-minutes-hero.png)
+
 ## 使用方法
 
 用 Cursor、Codex 或 Workbuddy 打开本仓库，把文件的绝对路径发给智能体，并说要写会议纪要。
