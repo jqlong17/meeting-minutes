@@ -58,13 +58,17 @@
 https://huggingface.co/DennisHuang648/SenseVoiceSmall-onnx/resolve/main
 ```
 
-默认放到：
+模型不放进仓库。每个人第一次运行 `meeting-minutes setup` 时，下载到自己电脑的应用数据目录。`~` 是这个人自己的用户目录，不是某一台机器上的固定路径。
 
-```text
-~/Library/Application Support/io.meeting-minutes.MeetingMinutesCli/models/sensevoice-small
-```
+目录由 `src/config.rs` 的 `default_model_dir()` 计算：用 `io`、`meeting-minutes`、`MeetingMinutesCli` 拼出应用数据目录，再接上 `models/sensevoice-small`。之后的转写也到同一目录找。
 
-音频只在本机转写，不会上传。模型文件第一次使用时再下载，不放在这个仓库里。
+| 系统 | 模型目录 |
+| --- | --- |
+| macOS | `~/Library/Application Support/io.meeting-minutes.MeetingMinutesCli/models/sensevoice-small` |
+| Linux | `~/.local/share/meetingminutescli/models/sensevoice-small` |
+| Windows | `%APPDATA%\meeting-minutes\MeetingMinutesCli\models\sensevoice-small` |
+
+音频只在本机转写，不会上传。
 
 ## 支持的智能体
 
